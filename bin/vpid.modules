@@ -22,4 +22,4 @@
 # Custom Modules
 #
 # Note: This is where we provide our own vcpu_factory.
-../../../src_vpid/bin/cross/libvcpu_factory_vpid.so
+../../../hypervisor_example_vpid/bin/cross/libvcpu_factory_vpid.so
