@@ -27,7 +27,7 @@ Finally, you can run the example. This can be done by running bfm manually, and 
 
 ```
 pushd bfm/bin/native
-sudo LD_LIBRARY_PATH=. ./bfm load <path to modules list>
+sudo LD_LIBRARY_PATH=. ./bfm load hypervisor_example_vpid/bin/vpid.modules
 sudo LD_LIBRARY_PATH=. ./bfm start
 sudo LD_LIBRARY_PATH=. ./bfm status
 sudo LD_LIBRARY_PATH=. ./bfm dump
@@ -37,7 +37,7 @@ popd
 or you can use the shortcuts:
 
 ```
-make load MODULES=<path to list>
+make load MODULES=hypervisor_example_vpid/bin/vpid.modules
 make start
 make status
 make dump
