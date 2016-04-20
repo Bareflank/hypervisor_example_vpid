@@ -27,7 +27,7 @@ std::shared_ptr<vcpu>
 vcpu_factory::make_vcpu(int64_t vcpuid)
 {
     // The vCPU Factory is used by the vCPU Manager to create vCPUs. This not
-    // only provides a hook unit testing (the classic factory pattern), but
+    // only provides a hook for unit testing (the classic factory pattern), but
     // also provides a clever place to hook in custom functionality above and
     // beyond what bareflank provides by default.
 
