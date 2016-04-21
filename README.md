@@ -2,13 +2,13 @@
 
 ## Description
 
-This example demonstrates how to extend the bareflank hypervisor to enable VPID. For more information on how Bareflank extensions work, please see the following:
+This example demonstrates how to extend the Bareflank hypervisor to enable VPID. For more information on how Bareflank extensions work, please see the following:
 
 [API Documentation](http://bareflank.github.io/hypervisor/html/)
 
 ## Compilation / Usage
 
-First, you must clone the repo into your existing bareflank repo. To see instructions on how to setup bareflank, please see the following:
+First, you must clone the repo into your existing Bareflank repo. To see instructions on how to setup Bareflank, please see the following:
 
 [Bareflank Hypervisor](https://github.com/Bareflank/hypervisor)
 
@@ -19,7 +19,7 @@ cd ~/hypervisor
 git clone https://github.com/Bareflank/hypervisor_example_vpid
 ```
 
-Once the example repo is cloned, you can now build the example. Bareflank automatically looks for the examples, or any folder that starts with "src_", and builds these folders along with bareflank itself. 
+Once the example repo is cloned, you can now build the example. Bareflank automatically looks for the examples, or any folder that starts with "src_", and builds these folders along with Bareflank itself. 
 
 ```
 make
