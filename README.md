@@ -2,7 +2,9 @@
 
 ## Description
 
-This example demonstrates how to extend the bareflank hypervisor to enable VPID.
+This example demonstrates how to extend the bareflank hypervisor to enable VPID. For more information on how Bareflank extensions work, please see the following:
+
+[API Documentation](http://bareflank.github.io/hypervisor/html/)
 
 ## Compilation / Usage
 
