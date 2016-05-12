@@ -36,7 +36,7 @@ public:
     /// Write 16bit Control State
     ///
     virtual void
-    write_16bit_control_state(const vmcs_state_intel_x64 &state)
+    write_16bit_control_state(const std::shared_ptr<vmcs_intel_x64_state> &state)
     {
         (void) state;
         static uint16_t vpid = 1;
