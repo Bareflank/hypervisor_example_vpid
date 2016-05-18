@@ -36,9 +36,8 @@ public:
     /// Write 16bit Control State
     ///
     virtual void
-    write_16bit_control_state(const std::shared_ptr<vmcs_intel_x64_state> &state)
+    write_16bit_control_state(const std::shared_ptr<vmcs_intel_x64_state> &state) override
     {
-        (void) state;
         static uint16_t vpid = 1;
 
         bfdebug << "enabling vpid" << bfendl;
@@ -51,6 +50,9 @@ public:
         // the check logic is accurate and complete, this logic should assist
         // in enabling VT-x features.
         vmwrite(VMCS_VIRTUAL_PROCESSOR_IDENTIFIER, vpid++);
+        
+        // Call base class
+        vmcs_intel_x64::write_16bit_control_state(state);
     }
 
     /// Default Primary Controls
