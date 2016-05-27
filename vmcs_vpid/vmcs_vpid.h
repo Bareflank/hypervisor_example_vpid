@@ -19,6 +19,9 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
+#ifndef VMCS_VPID_H
+#define VMCS_VPID_H
+
 #include <vmcs/vmcs_intel_x64.h>
 
 class vmcs_vpid : public vmcs_intel_x64
@@ -50,7 +53,7 @@ public:
         // the check logic is accurate and complete, this logic should assist
         // in enabling VT-x features.
         vmwrite(VMCS_VIRTUAL_PROCESSOR_IDENTIFIER, vpid++);
-        
+
         // Call base class
         vmcs_intel_x64::write_16bit_control_state(state);
     }
@@ -95,3 +98,5 @@ public:
         vmcs_intel_x64::secondary_processor_based_vm_execution_controls();
     }
 };
+
+#endif

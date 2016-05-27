@@ -42,8 +42,8 @@ CROSS_DEFINES+=
 # Output
 ################################################################################
 
-CROSS_OBJDIR:=.build
-CROSS_OUTDIR:=../../bin
+CROSS_OBJDIR+=%BUILD_REL%/.build
+CROSS_OUTDIR+=%BUILD_REL%/../bin
 
 ################################################################################
 # Sources
@@ -51,10 +51,9 @@ CROSS_OUTDIR:=../../bin
 
 SOURCES+=vcpu_factory_vpid.cpp
 
-INCLUDE_PATHS+=./
 INCLUDE_PATHS+=../../
-INCLUDE_PATHS+=../../../include/
-INCLUDE_PATHS+=../../../bfvmm/include/
+INCLUDE_PATHS+=%HYPER_ABS%/include/
+INCLUDE_PATHS+=%HYPER_ABS%/bfvmm/include/
 
 LIBS+=
 
@@ -83,4 +82,4 @@ LINUX_LIBRARY_PATHS+=
 # Common
 ################################################################################
 
-include ../../../common/common_target.mk
+include %HYPER_ABS%/common/common_target.mk
