@@ -1,46 +1,50 @@
-# Bareflank Hypervisor Example
+# Bareflank Hypervisor VPID Example
 
 ## Description
 
-This example demonstrates how to extend the Bareflank hypervisor to enable VPID. For more information on how Bareflank extensions work, please see the following:
+This example demonstrates how to extend the Bareflank hypervisor to use
+Intel's VPID to increase performance. For more information on how Bareflank
+extensions work, please see the following:
 
 [API Documentation](http://bareflank.github.io/hypervisor/html/)
 
 ## Compilation / Usage
 
-First, you must clone the repo into your existing Bareflank repo. To see instructions on how to setup Bareflank, please see the following:
-
-[Bareflank Hypervisor](https://github.com/Bareflank/hypervisor)
-
-At the moment, out-of-tree compilation is not supported.
+To setup our extension, we can either clone the extension into the Bareflank
+root folder and run make, or we can use the configure script to create an
+out-of-tree build environment that has our extension setup for easy development.
+Note that using the later approach, we can have more than one build
+environment (the following assumes this is running on Linux).
 
 ```
+cd ~/
+git clone https://github.com/Bareflank/hypervisor.git
+git clone https://github.com/Bareflank/hypervisor_example_vpid.git
 cd ~/hypervisor
-git clone https://github.com/Bareflank/hypervisor_example_vpid
-```
 
-Once the example repo is cloned, you can now build the example. Bareflank automatically looks for the examples, or any folder that starts with "src_", and builds these folders along with Bareflank itself. 
+./tools/scripts/setup-<xxx>.sh --no-configure
+sudo reboot
 
-```
+cd ~/
+mkdir build
+cd ~/build
+
+~/hypervisor/configure -m ~/hypervisor_example_vpid/bin/vpid.modules -e ~/hypervisor_example_vpid
+
 make
+make unittest
 ```
 
-Finally, you can run the example. This can be done by running bfm manually, and providing the path to your custom modules list:
+To test out our extended version of Bareflank, all we need to do is run the
+make shortcuts as usual:
 
 ```
-pushd bfm/bin/native
-sudo LD_LIBRARY_PATH=. ./bfm load hypervisor_example_vpid/bin/vpid.modules
-sudo LD_LIBRARY_PATH=. ./bfm start
-sudo LD_LIBRARY_PATH=. ./bfm status
-sudo LD_LIBRARY_PATH=. ./bfm dump
-popd
-```
+make linux_load
+make quick
 
-or you can use the shortcuts:
-
-```
-make load MODULES=hypervisor_example_vpid/bin/vpid.modules
-make start
 make status
 make dump
+
+make stop
+make linux_unload
 ```

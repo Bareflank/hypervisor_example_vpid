@@ -29,4 +29,4 @@ PARENT_SUBDIRS += vcpu_factory_vpid
 # Common
 ################################################################################
 
-include ../common/common_subdir.mk
+include %HYPER_ABS%/common/common_subdir.mk
