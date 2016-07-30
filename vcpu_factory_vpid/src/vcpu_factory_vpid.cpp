@@ -24,7 +24,7 @@
 #include <vmcs_vpid/vmcs_vpid.h>
 
 std::shared_ptr<vcpu>
-vcpu_factory::make_vcpu(int64_t vcpuid)
+vcpu_factory::make_vcpu(uint64_t vcpuid)
 {
     // The vCPU Factory is used by the vCPU Manager to create vCPUs. This not
     // only provides a hook for unit testing (the classic factory pattern), but
