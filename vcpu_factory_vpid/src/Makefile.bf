@@ -1,5 +1,5 @@
 #
-# Bareflank Hypervisor Examples
+# Bareflank Hypervisor
 #
 # Copyright (C) 2015 Assured Information Security, Inc.
 # Author: Rian Quinn        <quinnr@ainfosec.com>
@@ -25,11 +25,23 @@
 
 TARGET_NAME:=vcpu_factory_vpid
 TARGET_TYPE:=lib
-TARGET_COMPILER:=cross
+
+ifeq ($(shell uname -s), Linux)
+    TARGET_COMPILER:=both
+else
+    TARGET_COMPILER:=cross
+endif
 
 ################################################################################
 # Compiler Flags
 ################################################################################
+
+NATIVE_CCFLAGS+=
+NATIVE_CXXFLAGS+=
+NATIVE_ASMFLAGS+=
+NATIVE_LDFLAGS+=
+NATIVE_ARFLAGS+=
+NATIVE_DEFINES+=
 
 CROSS_CCFLAGS+=
 CROSS_CXXFLAGS+=
@@ -44,6 +56,9 @@ CROSS_DEFINES+=
 
 CROSS_OBJDIR+=%BUILD_REL%/.build
 CROSS_OUTDIR+=%BUILD_REL%/../bin
+
+NATIVE_OBJDIR+=%BUILD_REL%/.build
+NATIVE_OUTDIR+=%BUILD_REL%/../bin
 
 ################################################################################
 # Sources

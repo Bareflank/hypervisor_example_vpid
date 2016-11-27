@@ -23,17 +23,18 @@
 #include <vcpu/vcpu_intel_x64.h>
 #include <vmcs_vpid/vmcs_vpid.h>
 
-std::shared_ptr<vcpu>
-vcpu_factory::make_vcpu(uint64_t vcpuid)
+std::unique_ptr<vcpu>
+vcpu_factory::make_vcpu(vcpuid::type vcpuid, user_data *data)
 {
-    auto vmcs = std::make_shared<vmcs_vpid>();
+    auto &&my_vmcs = std::make_unique<vmcs_vpid>();
 
-    // Return a vCPU with our custom objects instead of the defaults which
-    // are represented by the null pointers.
-    return std::make_shared<vcpu_intel_x64>(vcpuid,
-                                            nullptr,
-                                            nullptr,
-                                            vmcs,
-                                            nullptr,
-                                            nullptr);
+    (void) data;
+    return std::make_unique<vcpu_intel_x64>(
+               vcpuid,
+               nullptr,                         // default debug_ring
+               nullptr,                         // default vmxon
+               std::move(my_vmcs),
+               nullptr,                         // default exit handler
+               nullptr,                         // default vmm_state
+               nullptr);                        // default guest_state
 }

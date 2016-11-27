@@ -23,6 +23,11 @@
 #define VMCS_VPID_H
 
 #include <vmcs/vmcs_intel_x64.h>
+#include <vmcs/vmcs_intel_x64_16bit_control_fields.h>
+#include <vmcs/vmcs_intel_x64_32bit_control_fields.h>
+
+using namespace intel_x64;
+using namespace vmcs;
 
 class vmcs_vpid : public vmcs_intel_x64
 {
@@ -30,72 +35,36 @@ public:
 
     /// Default Constructor
     ///
-    vmcs_vpid() {}
+    vmcs_vpid() = default;
 
     /// Destructor
     ///
-    virtual ~vmcs_vpid() {}
+    ~vmcs_vpid() override  = default;
 
-    /// Write 16bit Control State
+    /// Write Fields
     ///
-    virtual void
-    write_16bit_control_state(const std::shared_ptr<vmcs_intel_x64_state> &state) override
+    /// This functions is provided by the VMCS class as a means to
+    /// extend the existing VMCS setup with custom logic. In this
+    /// example, we add VPID support.
+    ///
+    void
+    write_fields(gsl::not_null<vmcs_intel_x64_state *> host_state,
+                 gsl::not_null<vmcs_intel_x64_state *> guest_state) override
     {
         static uint16_t vpid = 1;
 
-        bfdebug << "enabling vpid" << bfendl;
+        bfdebug << "enabling vpid: " << vpid << bfendl;
 
-        // To enable VPID, we need to pvoide a non-zero unique ID for each
-        // VMCS that we create. If you want to see what an error looks like,
-        // change the initial value for the vpid to 0, and run bareflank.
-        // When this happens, an exception will be thrown, and the check
-        // logic will inform you that the vpid is incorrectly set. Assuming
-        // the check logic is accurate and complete, this logic should assist
-        // in enabling VT-x features.
-        vmwrite(VMCS_VIRTUAL_PROCESSOR_IDENTIFIER, vpid++);
+        // Before we setup VPID, we let the existing VMCS set itself up. This way
+        // whatever changes we are making are done on top of the default setup.
+        vmcs_intel_x64::write_fields(host_state, guest_state);
 
-        // Call base class
-        vmcs_intel_x64::write_16bit_control_state(state);
-    }
-
-    /// Default Primary Controls
-    ///
-    virtual void
-    primary_processor_based_vm_execution_controls() override
-    {
-        // To Enable VPID, we need to enabled the secondary controls.
-        // To do this, we read the primary controls, enable the secondary
-        // controls, and then write them back. Before we are finished, we call
-        // into the base class just in case there is something the base class
-        // also needs to do.
-
-        // Enable secondary controls
-        auto controls = vmread(VMCS_PRIMARY_PROCESSOR_BASED_VM_EXECUTION_CONTROLS);
-        controls |= VM_EXEC_P_PROC_BASED_ACTIVATE_SECONDARY_CONTROLS;
-        vmwrite(VMCS_PRIMARY_PROCESSOR_BASED_VM_EXECUTION_CONTROLS, controls);
-
-        // Call base class
-        vmcs_intel_x64::primary_processor_based_vm_execution_controls();
-    }
-
-    /// Default Secondary Controls
-    ///
-    virtual void
-    secondary_processor_based_vm_execution_controls() override
-    {
-        // To Enable VPID, we need to enabled the VPID secondary control.
-        // To do this, we read the secondary controls, set the vpid,
-        // and then write them back. Before we are finished, we call into the
-        // base class just in case there is something the base class also needs
-        // to do.
-
-        // Set the VPID secondary controls
-        auto controls = vmread(VMCS_SECONDARY_PROCESSOR_BASED_VM_EXECUTION_CONTROLS);
-        controls |= VM_EXEC_S_PROC_BASED_ENABLE_VPID;
-        vmwrite(VMCS_SECONDARY_PROCESSOR_BASED_VM_EXECUTION_CONTROLS, controls);
-
-        // Call base class
-        vmcs_intel_x64::secondary_processor_based_vm_execution_controls();
+        // Finally we setup VPID. This is done by providing a custom 16bit unique
+        // number greater than 0, and turning on the secondary control field for
+        // VPID. Note that we do not have to enable the secondary controls ourselves
+        // because Bareflank does that for us.
+        vmcs::virtual_processor_identifier::set(vpid++);
+        secondary_processor_based_vm_execution_controls::enable_vpid::enable();
     }
 };
 
