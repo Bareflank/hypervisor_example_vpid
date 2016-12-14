@@ -32,19 +32,18 @@ cd ~/build
 ~/hypervisor/configure -m ~/hypervisor_example_vpid/bin/vpid.modules -e ~/hypervisor_example_vpid
 
 make
-make unittest
 ```
 
 To test out our extended version of Bareflank, all we need to do is run the
 make shortcuts as usual:
 
 ```
-make linux_load
+make driver_load
 make quick
 
 make status
 make dump
 
 make stop
-make linux_unload
+make driver_load
 ```
