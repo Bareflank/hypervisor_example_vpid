@@ -10,11 +10,7 @@ extensions work, please see the following:
 
 ## Compilation / Usage
 
-To setup our extension, we can either clone the extension into the Bareflank
-root folder and run make, or we can use the configure script to create an
-out-of-tree build environment that has our extension setup for easy development.
-Note that using the later approach, we can have more than one build
-environment (the following assumes this is running on Linux).
+To setup our extension, run the following (assuming Linux):
 
 ```
 cd ~/
