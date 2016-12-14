@@ -30,7 +30,6 @@ mkdir build
 cd ~/build
 
 ~/hypervisor/configure -m ~/hypervisor_example_vpid/bin/vpid.modules -e ~/hypervisor_example_vpid
-
 make
 ```
 
