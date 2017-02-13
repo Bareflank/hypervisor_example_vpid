@@ -40,5 +40,5 @@ make status
 make dump
 
 make stop
-make driver_load
+make driver_unload
 ```
