@@ -1,4 +1,4 @@
-# Bareflank Hypervisor CPUID Count Example
+# Bareflank Hypervisor VPID Example
 
 ## Description
 
